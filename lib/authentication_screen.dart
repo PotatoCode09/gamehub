@@ -212,7 +212,7 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
                 style: TextStyle(
                   fontSize: _extraLarge,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'DMSerifText-Regular',
+                  fontFamily: 'DMSerifText',
                   color: _themeMain,
                 ),
               ),
