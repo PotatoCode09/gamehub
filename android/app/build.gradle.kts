@@ -1,44 +1,52 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
+    id "kotlin-android"
+    id "com.android.application"
+    id "dev.flutter.flutter-gradle-plugin"
+// id "com.google.gms.google-services"
 }
 
 android {
     namespace = "com.example.gamehub"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
+    ndkVersion "25.1.8937393"
+    compileSdk 35
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = 17
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+    }
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.gamehub"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "GH.010.001"
     }
-
+    signingConfigs {
+        release {
+            keyAlias 'release'
+            keyPassword 'gamehub.app'
+            storeFile file('release-key.jks')
+            storePassword 'gamehub.app'
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel "SYMBOL_TABLE"
+            }
         }
     }
 }
-
+dependencies {
+// implementation platform('com.google.firebase:firebase -bom:33.13.0')
+// implementation 'com.google.firebase:firebase-analytics'
+}
 flutter {
     source = "../.."
 }
