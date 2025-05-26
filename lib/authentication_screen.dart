@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'widgets/loading_screen.dart';
-import '../services/database.dart';
-import '../models/account.dart';
+import 'widgets/loading_screen.dart'; // Your loading screen widget
+import '../services/database.dart';    // Ensure path is correct
+import '../models/account.dart';       // Ensure path is correct
 
 class AuthenticationScreen extends StatefulWidget {
-  final VoidCallback? onSignedIn;
+  final VoidCallback onSignedIn; // Callback to notify parent
 
-  const AuthenticationScreen({super.key, this.onSignedIn});
+  const AuthenticationScreen({super.key, required this.onSignedIn});
 
   @override
   AuthenticationScreenState createState() => AuthenticationScreenState();
@@ -28,17 +28,16 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
   late final double _body = 16.0;
 
   int lastLoginClicked = 0;
-  bool isSignedIn = false;
   bool _isLoading = false;
   int _retries = 0;
   bool _isPaused = false;
+
   String accessToken = '';
   int userLevel = -1;
   String fullName = '';
   String username = '';
   String photoUrl = '';
-  String apiPhotoUrl =
-      'https://api.dicebear.com/9.x/open -peeps/svg?seed=Alexander';
+  String apiPhotoUrl = 'https://api.dicebear.com/9.x/open-peeps/svg?seed=Alexander';
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -56,10 +55,7 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
       final response = await http.post(
         Uri.parse('$_bhServer/authorize'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': tempUsername,
-          'password': tempPassword,
-        }),
+        body: jsonEncode({'username': tempUsername, 'password': tempPassword}),
       );
 
       final data = jsonDecode(response.body);
@@ -67,6 +63,7 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
       userLevel = data['userLevel'] as int? ?? -1;
       fullName = data['fullName'] as String? ?? '';
       photoUrl = data['photoUrl'] as String? ?? apiPhotoUrl;
+
       if (photoUrl.isEmpty) photoUrl = apiPhotoUrl;
       if (accessToken.isNotEmpty) username = tempUsername;
 
@@ -93,9 +90,7 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
 
     final timestamp = DateTime.now().toIso8601String();
     final accountUuid = uuid.v5(
-      Namespace.oid.value,
-      'account_${username}_$timestamp',
-    );
+        Namespace.oid.value, 'account_${username}_$timestamp');
 
     final account = Account(
       uuid: accountUuid,
@@ -115,14 +110,16 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
 
     await DatabaseService().insertAccount(account);
     _showToast("Welcome back $username!");
-    isSignedIn = true;
 
     setState(() {
       _retries = 0;
-      _isLoading = false;
+      _isLoading = false; // Set loading to false before calling onSignedIn
     });
 
-    widget.onSignedIn?.call();
+    // CRITICAL: Call the callback to notify MyApp
+    if (mounted) {
+      widget.onSignedIn(); // This will trigger the screen change in main.dart
+    }
   }
 
   void _showToast(String message) {
@@ -174,14 +171,16 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            onPressed: _retries >= 3
+            onPressed: _isLoading || _isPaused
                 ? null
                 : () async {
               final username = _usernameController.text.trim();
               final password = _passwordController.text.trim();
-              await authorizeEmail(username, password);
-              _usernameController.clear();
-              _passwordController.clear();
+              if (username.isNotEmpty && password.isNotEmpty) {
+                await authorizeEmail(username, password);
+              } else {
+                _showToast("Please enter username and password.");
+              }
             },
             child: const Text('Sign in'),
           ),
@@ -192,36 +191,56 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? LoadingScreen(size: 80.0, color: _themeMain)
-        : Scaffold(
-      backgroundColor: _themeBG,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/joystick.png',
-                height: 80.0,
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: _themeBG,
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/images/joystick.png', // Ensure this asset exists
+                    height: 80.0,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Gamehub',
+                    style: TextStyle(
+                      fontSize: _extraLarge,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'DMSerif', // Ensure this font is in pubspec.yaml
+                      color: _themeMain,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  if (!_isPaused) _buildSignInFields(),
+                  if (_isPaused)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text(
+                        "Sign-in is temporarily paused due to too many attempts.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.red[700]),
+                      ),
+                    ),
+                ],
               ),
-              const SizedBox(height: 8.0),
-              Text(
-                'Gamehub',
-                style: TextStyle(
-                  fontSize: _extraLarge,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'DMSerifText',
-                  color: _themeMain,
-                ),
-              ),
-              const SizedBox(height: 24),
-              if (!_isPaused) _buildSignInFields(),
-            ],
+            ),
           ),
         ),
-      ),
+        if (_isLoading)
+          const LoadingScreen(), // Display loading screen on top
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

@@ -30,7 +30,6 @@ class PersonalIsland extends StatelessWidget {
     if (!isSignedIn) {
       return const SizedBox.shrink();
     }
-
     return Positioned(
       top: _islandTopPadding,
       left: _islandHorizontalPadding,

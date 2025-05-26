@@ -36,10 +36,10 @@ class AppSettingsDialog extends StatelessWidget {
 
   static const double _dialogBorderRadius = 8.0;
   static const EdgeInsets _settingsItemPadding =
-  EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 12);
+      EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 12);
   static const TextStyle _settingsItemTextStyle = TextStyle(fontSize: 18.0);
   static const EdgeInsets _signOutPadding =
-  EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 24);
+      EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 24);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class AppSettingsDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+              padding: EdgeInsets.fromLTRB(24, 24, 24, 12),
               child: Row(
                 children: [
                   netImgLg ?? const SizedBox.shrink(),

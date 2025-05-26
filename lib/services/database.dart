@@ -19,7 +19,6 @@ class DatabaseService {
   Future<Database> _initDatabase() async {
     final databasePath = await getDatabasesPath();
     final path = '$databasePath/gamehub_app.db';
-
     final database = await openDatabase(
       path,
       version: 1,
@@ -27,38 +26,22 @@ class DatabaseService {
       onUpgrade: _onUpgrade,
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
     );
-
     _database = database;
     return database;
   }
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(
-        '''
-      CREATE TABLE account (
-        uuid TEXT PRIMARY KEY,
-        api_id TEXT,
-        user_level INTEGER DEFAULT 0,
-        api_name TEXT,
-        api_email TEXT,
-        api_photo_url TEXT,
-        is_signed_in INTEGER DEFAULT 0,
-        is_public INTEGER DEFAULT 0,
-        is_contributor_mode INTEGER DEFAULT 0,
-        is_restricted INTEGER DEFAULT 0,
-        is_synchronized INTEGER DEFAULT 0,
-        ttl TEXT,
-        created_at TEXT NOT NULL
-      );
-      '''
+      "CREATE TABLE account (uuid TEXT PRIMARY KEY, api_id TEXT, user_level INTEGER DEFAULT 0, api_name TEXT, "
+          "api_email TEXT, api_photo_url TEXT, is_signed_in INTEGER DEFAULT 0, is_public INTEGER DEFAULT 0, "
+          "is_contributor_mode INTEGER DEFAULT 0, is_restricted INTEGER DEFAULT 0, is_synchronized INTEGER DEFAULT 0, ttl "
+          "TEXT, created_at TEXT NOT NULL);",
     );
   }
 
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Implement upgrade logic if needed
-  }
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {}
 
-  // Helper methods
+  // helper methods
 
   Future<void> insertAccount(Account account) async {
     final db = await _databaseService.database;
@@ -71,19 +54,12 @@ class DatabaseService {
 
   Future<void> updateAccount(Account account) async {
     final db = await _databaseService.database;
-    await db.update(
-      'account',
-      account.toMap(),
-      where: 'uuid = ?',
-      whereArgs: [account.uuid],
-    );
+    await db.update('account', account.toMap(), where: 'uuid = ?', whereArgs: [account.uuid]);
   }
 
-  Future<List<Account>> getAccount(String uuid) async {
+  Future<List<Account>> getAccount(uuid) async {
     final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps =
-    await db.query('account', where: 'uuid = ?', whereArgs: [uuid]);
-
+    final List<Map<String, dynamic>> maps = await db.query('account', where: 'uuid = ?', whereArgs: [uuid]);
     return List.generate(maps.length, (index) => Account.fromMap(maps[index]));
   }
 
@@ -95,14 +71,12 @@ class DatabaseService {
       orderBy: 'created_at DESC',
       limit: 1,
     );
-
     return List.generate(maps.length, (index) => Account.fromMap(maps[index]));
   }
 
   Future<List<Account>> getAccounts(int limit) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query('account', limit: limit);
-
     return List.generate(maps.length, (index) => Account.fromMap(maps[index]));
   }
 
