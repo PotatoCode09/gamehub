@@ -30,9 +30,9 @@ android {
     signingConfigs {
         create("release") {
             keyAlias = "release"
-            keyPassword = "gamehub.app"
+            keyPassword = "36145278"
             storeFile = file("release-key.jks")
-            storePassword = "gamehub.app"
+            storePassword = "36145278"
         }
     }
 
