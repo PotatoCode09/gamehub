@@ -4,20 +4,12 @@ import 'package:marquee/marquee.dart'; // Add this import
 class ActualHomePage extends StatelessWidget {
   const ActualHomePage({super.key});
 
-  static const List<String> trendingGames = [
+  final List<String> trendingGames = const [
     'game1.jpg',
     'game2.jpg',
     'game3.jpg',
     'game4.jpg',
     'game5.jpg',
-  ];
-
-  static const List<String> trendingGameTitles = [
-    'Terraria',
-    'Diablo II',
-    'Baldur\'s Gate II',
-    'World of Warcraft',
-    'Farcry',
   ];
 
   @override
@@ -64,39 +56,22 @@ class ActualHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               SizedBox(
-                height: 260, // Increased to fit image + title
+                height: 220,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: trendingGames.length,
-                  separatorBuilder: (context, index) => const SizedBox(width: 16),
+                  separatorBuilder:
+                      (context, index) => const SizedBox(width: 16),
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 2 / 3,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset(
-                              'assets/images/${trendingGames[index]}',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                    return AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          'assets/images/${trendingGames[index]}',
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          width: 100, // Adjust width as needed
-                          child: Text(
-                            trendingGameTitles[index],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
+                      ),
                     );
                   },
                 ),
