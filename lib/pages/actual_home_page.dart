@@ -20,14 +20,8 @@ class ActualHomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.home, size: 40, color: Colors.blueAccent),
-                  SizedBox(width: 12),
-                  Text(
-                    'GameHub',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
+              const Row(children: [
+                  
                 ],
               ),
               const SizedBox(height: 32),
