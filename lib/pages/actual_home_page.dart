@@ -3,38 +3,73 @@ import 'package:flutter/material.dart';
 class ActualHomePage extends StatelessWidget {
   const ActualHomePage({super.key});
 
+  final List<String> trendingGames = const [
+    'game1.jpg',
+    'game2.jpg',
+    'game3.jpg',
+    'game4.jpg',
+    'game5.jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar( // Usually the AppBar is in MainAppScreen for consistent look
-      //   title: const Text('Home'),
-      // ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Icon(
-              Icons.home,
-              size: 80,
-              color: Colors.blueAccent,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Actual Home Page',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: Text(
-                'This is where your main dashboard or primary content will live. '
-                'Build out this page with the core features of your app section.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.home, size: 40, color: Colors.blueAccent),
+                  SizedBox(width: 12),
+                  Text(
+                    'GameHub',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-            ),
-            // Add more widgets here for your home page content
-          ],
+              const SizedBox(height: 32),
+              const Text(
+                'Trending Games',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 220,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: trendingGames.length,
+                  separatorBuilder:
+                      (context, index) => const SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    return AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          'assets/images/${trendingGames[index]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                'Welcome to your GameHub!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Discover trending games and manage your collection.',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+              // Add more widgets for additional content
+            ],
+          ),
         ),
       ),
     );
