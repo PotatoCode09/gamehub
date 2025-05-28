@@ -93,12 +93,42 @@ class ProfilePage extends StatelessWidget {
                   vertical: 12,
                 ),
               ),
-              onPressed: onSignOut, // <-- This triggers the sign out!
+              onPressed:
+                  () => _showSignOutDialog(context), // Show confirmation dialog
             ),
             const SizedBox(height: 20),
           ],
         ),
       ),
+    );
+  }
+
+  // Add this method to show the confirmation dialog
+  void _showSignOutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                onSignOut(); // Call the sign out function
+              },
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Sign Out'),
+            ),
+          ],
+        );
+      },
     );
   }
 
