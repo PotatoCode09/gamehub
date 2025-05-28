@@ -38,6 +38,11 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/joystick.png
+    - assets/images/game1.jpg
+    - assets/images/game2.jpg
+    - assets/images/game3.jpg
+    - assets/images/game4.jpg
+    - assets/images/game5.jpg
   fonts:
     - family: DM Serif
       fonts:
@@ -61,3 +66,4 @@ flutter_launcher_icons:
       fonts:
         - asset: assets/fonts/DMSerifText-Italic.ttf
         - asset: assets/fonts/DMSerifText-Regular.ttf
+
