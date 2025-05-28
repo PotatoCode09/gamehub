@@ -51,23 +51,6 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: Icon(
-                      Icons.notifications,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: const Text('Notifications'),
-                    subtitle: const Text('Manage notification preferences'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Notification settings coming soon'),
-                        ),
-                      );
-                    },
-                  ),
-                  const Divider(),
-                  ListTile(
-                    leading: Icon(
                       Icons.language,
                       color: Theme.of(context).colorScheme.primary,
                     ),
