@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'settings.dart';
+import 'savedgames.dart';
 
 class ProfilePage extends StatelessWidget {
   final VoidCallback onSignOut;
@@ -68,11 +69,14 @@ class ProfilePage extends StatelessWidget {
             ),
             _buildProfileOption(
               context,
-              icon: Icons.history,
-              title: 'Order History',
+              icon: Icons.bookmark,
+              title: 'Saved Games',
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Navigate to Order History')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SavedGamesPage(),
+                  ),
                 );
               },
             ),
