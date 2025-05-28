@@ -8,6 +8,9 @@ version: 1.0.0+1
 environment:
   sdk: ^3.7.2
 
+flutter:
+  assets:
+    - assets/images/
 
 dependencies:
   flutter:

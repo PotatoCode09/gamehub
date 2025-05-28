@@ -32,6 +32,16 @@ class ActualHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               const Text(
+                'Welcome to your GameHub!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Discover trending games and manage your collection.',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+              const SizedBox(height: 32),
+              const Text(
                 'Trending Games',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
@@ -56,16 +66,6 @@ class ActualHomePage extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Welcome to your GameHub!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Discover trending games and manage your collection.',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               // Add more widgets for additional content
             ],
