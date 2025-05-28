@@ -25,9 +25,9 @@ class _SearchPageState extends State<SearchPage> {
     FocusScope.of(context).unfocus(); // Dismiss keyboard
     // Example: Trigger an API call or filter a local list
     if (_searchTerm.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Searching for: $_searchTerm...')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Searching for: $_searchTerm...')));
     }
   }
 
@@ -83,7 +83,11 @@ class _SearchPageState extends State<SearchPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.manage_search_rounded, size: 60, color: Colors.grey),
+                      Icon(
+                        Icons.manage_search_rounded,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
                       SizedBox(height: 10),
                       Text(
                         'Enter a term to start searching.',

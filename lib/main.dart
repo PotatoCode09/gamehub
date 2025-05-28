@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'authentication_screen.dart';
-import 'main_app_screen.dart'; // We'll create this next
+import 'main_app_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,13 +22,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // Optional: Add a method to handle sign out if needed
-  // void _handleSignOut() {
-  //   setState(() {
-  //     _isAuthenticated = false;
-  //   });
-  //   // Add any actual sign-out logic here (e.g., clearing tokens)
-  // }
+  void _handleSignOut() {
+    setState(() {
+      _isAuthenticated = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +34,12 @@ class _MyAppState extends State<MyApp> {
       title: 'Gamehub',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true, // Recommended for new apps
+        useMaterial3: true,
       ),
-      home: _isAuthenticated
-          ? MainAppScreen() // Pass signOut callback if you implement it: onSignOut: _handleSignOut
-          : AuthenticationScreen(onSignedIn: _handleSignIn),
+      home:
+          _isAuthenticated
+              ? MainAppScreen(onSignOut: _handleSignOut)
+              : AuthenticationScreen(onSignedIn: _handleSignIn),
     );
   }
 }

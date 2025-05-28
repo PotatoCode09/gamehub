@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'widgets/loading_screen.dart'; // Your loading screen widget
-import '../services/database.dart';    // Ensure path is correct
-import '../models/account.dart';       // Ensure path is correct
+import 'widgets/loading_screen.dart';
+import '../services/database.dart';
+import '../models/account.dart';
 
 class AuthenticationScreen extends StatefulWidget {
-  final VoidCallback onSignedIn; // Callback to notify parent
+  final VoidCallback onSignedIn;
 
   const AuthenticationScreen({super.key, required this.onSignedIn});
 
@@ -37,13 +37,15 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
   String fullName = '';
   String username = '';
   String photoUrl = '';
-  String apiPhotoUrl = 'https://api.dicebear.com/9.x/open-peeps/svg?seed=Alexander';
+  String apiPhotoUrl =
+      'https://api.dicebear.com/9.x/open-peeps/svg?seed=Alexander';
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> authorizeEmail(String tempUsername, String tempPassword) async {
-    if (lastLoginClicked >= DateTime.now().millisecondsSinceEpoch - globalDelay) return;
+    if (lastLoginClicked >= DateTime.now().millisecondsSinceEpoch - globalDelay)
+      return;
 
     setState(() {
       userLevel = -1;
@@ -90,7 +92,9 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
 
     final timestamp = DateTime.now().toIso8601String();
     final accountUuid = uuid.v5(
-        Namespace.oid.value, 'account_${username}_$timestamp');
+      Namespace.oid.value,
+      'account_${username}_$timestamp',
+    );
 
     final account = Account(
       uuid: accountUuid,
@@ -113,12 +117,11 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
 
     setState(() {
       _retries = 0;
-      _isLoading = false; // Set loading to false before calling onSignedIn
+      _isLoading = false;
     });
 
-    // CRITICAL: Call the callback to notify MyApp
     if (mounted) {
-      widget.onSignedIn(); // This will trigger the screen change in main.dart
+      widget.onSignedIn();
     }
   }
 
@@ -171,17 +174,18 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            onPressed: _isLoading || _isPaused
-                ? null
-                : () async {
-              final username = _usernameController.text.trim();
-              final password = _passwordController.text.trim();
-              if (username.isNotEmpty && password.isNotEmpty) {
-                await authorizeEmail(username, password);
-              } else {
-                _showToast("Please enter username and password.");
-              }
-            },
+            onPressed:
+                _isLoading || _isPaused
+                    ? null
+                    : () async {
+                      final username = _usernameController.text.trim();
+                      final password = _passwordController.text.trim();
+                      if (username.isNotEmpty && password.isNotEmpty) {
+                        await authorizeEmail(username, password);
+                      } else {
+                        _showToast("Please enter username and password.");
+                      }
+                    },
             child: const Text('Sign in'),
           ),
         ),
@@ -201,17 +205,14 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/images/joystick.png', // Ensure this asset exists
-                    height: 80.0,
-                  ),
+                  Image.asset('assets/images/joystick.png', height: 80.0),
                   const SizedBox(height: 8.0),
                   Text(
                     'Gamehub',
                     style: TextStyle(
                       fontSize: _extraLarge,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'DMSerif', // Ensure this font is in pubspec.yaml
+                      fontFamily: 'DMSerif',
                       color: _themeMain,
                     ),
                   ),
@@ -231,8 +232,7 @@ class AuthenticationScreenState extends State<AuthenticationScreen> {
             ),
           ),
         ),
-        if (_isLoading)
-          const LoadingScreen(), // Display loading screen on top
+        if (_isLoading) const LoadingScreen(),
       ],
     );
   }
