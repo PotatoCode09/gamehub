@@ -64,15 +64,13 @@ class ActualHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               SizedBox(
-                height: 240, // Slightly increased to fit image + title
+                height: 260, // Increased to fit image + title
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: trendingGames.length,
-                  separatorBuilder:
-                      (context, index) => const SizedBox(width: 16),
+                  separatorBuilder: (context, index) => const SizedBox(width: 16),
                   itemBuilder: (context, index) {
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AspectRatio(
                           aspectRatio: 2 / 3,
@@ -85,11 +83,17 @@ class ActualHomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          trendingGameTitles[index],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                        SizedBox(
+                          width: 100, // Adjust width as needed
+                          child: Text(
+                            trendingGameTitles[index],
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
