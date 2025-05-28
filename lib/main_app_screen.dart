@@ -5,7 +5,15 @@ import 'pages/profile_page.dart';
 
 class MainAppScreen extends StatefulWidget {
   final VoidCallback onSignOut;
-  const MainAppScreen({super.key, required this.onSignOut});
+  final VoidCallback onThemeToggle;
+  final bool isDarkMode;
+
+  const MainAppScreen({
+    super.key,
+    required this.onSignOut,
+    required this.onThemeToggle,
+    required this.isDarkMode,
+  });
 
   @override
   State<MainAppScreen> createState() => _MainAppScreenState();
@@ -17,7 +25,11 @@ class _MainAppScreenState extends State<MainAppScreen> {
   List<Widget> get _widgetOptions => [
     const ActualHomePage(),
     const SearchPage(),
-    ProfilePage(onSignOut: widget.onSignOut),
+    ProfilePage(
+      onSignOut: widget.onSignOut,
+      onThemeToggle: widget.onThemeToggle,
+      isDarkMode: widget.isDarkMode,
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -27,7 +39,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   }
 
   static const List<String> _appBarTitles = <String>[
-    'Gamehub Home',
+    'Home',
     'Search Games',
     'My Profile',
   ];

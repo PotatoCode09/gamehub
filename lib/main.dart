@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isAuthenticated = false;
+  bool _isDarkMode = false;
 
   void _handleSignIn() {
     setState(() {
@@ -28,17 +29,38 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _toggleTheme() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gamehub',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home:
           _isAuthenticated
-              ? MainAppScreen(onSignOut: _handleSignOut)
+              ? MainAppScreen(
+                onSignOut: _handleSignOut,
+                onThemeToggle: _toggleTheme,
+                isDarkMode: _isDarkMode,
+              )
               : AuthenticationScreen(onSignedIn: _handleSignIn),
     );
   }

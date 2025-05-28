@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'settings.dart';
 
 class ProfilePage extends StatelessWidget {
   final VoidCallback onSignOut;
-  const ProfilePage({super.key, required this.onSignOut});
+  final VoidCallback onThemeToggle;
+  final bool isDarkMode;
+
+  const ProfilePage({
+    super.key,
+    required this.onSignOut,
+    required this.onThemeToggle,
+    required this.isDarkMode,
+  });
 
   // Example user data - in a real app, this would come from your state/backend
   final String userName = "Alex Gamer";
@@ -45,8 +54,15 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.settings,
               title: 'Account Settings',
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Navigate to Account Settings')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => SettingsPage(
+                          onThemeToggle: onThemeToggle,
+                          isDarkMode: isDarkMode,
+                        ),
+                  ),
                 );
               },
             ),
