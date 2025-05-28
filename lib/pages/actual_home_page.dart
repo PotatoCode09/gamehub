@@ -12,6 +12,14 @@ class ActualHomePage extends StatelessWidget {
     'game5.jpg',
   ];
 
+  final List<String> trendingGameTitles = const [
+    'Terraria',
+    'Diablo II',
+    'Baldur\'s Gate II',
+    'World of Warcraft',
+    'Farcry',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,22 +64,35 @@ class ActualHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               SizedBox(
-                height: 220,
+                height: 240, // Slightly increased to fit image + title
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: trendingGames.length,
                   separatorBuilder:
                       (context, index) => const SizedBox(width: 16),
                   itemBuilder: (context, index) {
-                    return AspectRatio(
-                      aspectRatio: 2 / 3,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          'assets/images/${trendingGames[index]}',
-                          fit: BoxFit.cover,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 2 / 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.asset(
+                              'assets/images/${trendingGames[index]}',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          trendingGameTitles[index],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
