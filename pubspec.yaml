@@ -46,6 +46,10 @@ flutter:
     - assets/images/game3.jpg
     - assets/images/game4.jpg
     - assets/images/game5.jpg
+    - assets/images/saved1.jpg
+    - assets/images/saved2.jpg
+    - assets/images/saved3.jpg 
+    - assets/images/saved4.jpg
   fonts:
     - family: DM Serif
       fonts:
