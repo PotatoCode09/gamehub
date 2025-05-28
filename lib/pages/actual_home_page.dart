@@ -4,7 +4,7 @@ import 'package:marquee/marquee.dart'; // Add this import
 class ActualHomePage extends StatelessWidget {
   const ActualHomePage({super.key});
 
-  final List<String> trendingGames = const [
+  static const List<String> trendingGames = [
     'game1.jpg',
     'game2.jpg',
     'game3.jpg',
@@ -12,7 +12,7 @@ class ActualHomePage extends StatelessWidget {
     'game5.jpg',
   ];
 
-  final List<String> trendingGameTitles = const [
+  static const List<String> trendingGameTitles = [
     'Terraria',
     'Diablo II',
     'Baldur\'s Gate II',
