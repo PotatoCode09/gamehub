@@ -23,12 +23,12 @@ android {
         applicationId = "com.nietzchan.gamehub"
         minSdk = 23
         targetSdk = 35
-        versionCode = 1
-        versionName = "GH.010.001"
+        versionCode = 2
+        versionName = "GH.010.002"
     }
 
     signingConfigs {
-        create("release") {
+                create("release") {
             keyAlias = "release"
             keyPassword = "36145278"
             storeFile = file("release-key.jks")
@@ -38,16 +38,24 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
             ndk {
                 debugSymbolLevel = "SYMBOL_TABLE"
             }
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
         }
     }
 }
